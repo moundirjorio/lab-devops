@@ -1,0 +1,19 @@
+﻿name: Guard-Pipeline-CI-Docker
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  container-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker Image
+        run: docker compose build
+
+      - name: Run Kill-Switch Test in Docker
+        run: docker compose run web python manage.py test
